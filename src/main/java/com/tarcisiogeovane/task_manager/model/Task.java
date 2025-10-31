@@ -7,6 +7,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
 import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 /**
  * Represents a Task entity in the database.
@@ -41,4 +45,23 @@ public class Task {
 
     // Indicates whether the task has been completed.
     private boolean completed = false; // Default to false
+
+/**
+ * This defines the "many-to-one" relationship.
+ * Many Tasks can belong to one User.
+ *
+ * - fetch = FetchType.LAZY: This is a performance optimization.
+ * It tells JPA to not load the User object from the database
+ * until we explicitly call task.getUser().
+ *
+ * - @JoinColumn(name = "user_id"): This specifies that the "tasks" table
+ * will have a foreign key column named "user_id" that links to the "id"
+ * column of the "users" table.
+ * * - @JsonIgnore: We add this here too to prevent infinite loops in JSON.
+ */
+
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "user_id")
+@JsonIgnore
+private User user;
 }

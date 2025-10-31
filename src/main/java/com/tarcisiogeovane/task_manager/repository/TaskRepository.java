@@ -3,6 +3,7 @@ package com.tarcisiogeovane.task_manager.repository;
 import com.tarcisiogeovane.task_manager.model.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import java.util.List;
 
 /**
  * Task Repository Interface.
@@ -15,5 +16,10 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
-    // We can add custom query methods here later if needed
+
+    /**
+     * Custom query to find all tasks associated with a specific user ID.
+     * Spring Data JPA creates the query automatically from the method name.
+     */
+    List<Task> findByUserId(Long userId);
 }
